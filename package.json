@@ -1,0 +1,24 @@
+{
+  "name": "@kabukki/emukit",
+  "version": "1.0.0",
+  "main": "dist/index.js",
+  "files": [
+    "dist/*"
+  ],
+  "scripts": {
+    "build:lib": "esbuild --bundle --outdir=dist --sourcemap --format=esm --loader:.worklet.js=text src/index.ts",
+    "build:worklets": "esbuild --bundle --outdir=worklets --format=esm src/audio/*.worklet.js",
+    "build:types": "tsc --emitDeclarationOnly",
+    "build": "npm run build:worklets && npm run build:lib && npm run build:types",
+    "prepack": "npm run build"
+  },
+  "devDependencies": {
+    "esbuild": "^0.13.14",
+    "typescript": "^4.4.4"
+  },
+  "dependencies": {
+    "game-stats": "^0.1.1",
+    "lodash.throttle": "^4.1.1",
+    "ringbuf.js": "^0.1.0"
+  }
+}
