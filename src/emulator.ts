@@ -23,8 +23,8 @@ export abstract class Emulator <A extends Audio, V extends Video> extends EventT
     abstract cycle (): void;
     abstract reset (): void;
     abstract save (): Save;
+    abstract load (save: Save): void;
     abstract debug (): any;
-    abstract loadSave (save: Save): void;
 
     async init () {}
 
@@ -43,19 +43,6 @@ export abstract class Emulator <A extends Audio, V extends Video> extends EventT
 
         this.rafHandle = requestAnimationFrame(rafCallback);
         this.audio.start();
-    }
-
-    step () {
-        requestAnimationFrame((timestamp) => {
-            try {
-                this.cycle();
-                this.stats.record(timestamp);
-                this.emitSave();
-                this.emitDebug();
-            } catch (err) {
-                this.stop(err);
-            }
-        });
     }
 
     stop (error?: Error) {
